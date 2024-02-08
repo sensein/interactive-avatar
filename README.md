@@ -4,8 +4,8 @@
 
 Interactive avatar is an application built using Google's [Talking Character](https://github.com/google/generative-ai-docs/tree/main/demos/palm/web/talking-character), OpenAI's [Whisper](https://github.com/openai/whisper), Google's [MediaPipe](https://developers.google.com/mediapipe), and Google's large language learning model [PALM](https://ai.googleblog.com/2022/04/pathways-language-model-palm-scaling-to.html).
 Users can interact with the avatar using natural language, facial expressions and gestures, simulating real-life interaction.
-The goal of this project is to develop an app that children with autism and without may interact with, monitoring interests and behaviours through games, dialogue, and facial expressions.
-The ultimate goal of the project is to use the data collected during the interaction for autism preliminary screening.
+The goal of this project is to develop an app that children may interact with, monitoring interests and behaviours through games, dialogue, and facial expressions.
+The ultimate goal of the project is to use the data collected during the interaction.
 
 ## Table of contents
 
@@ -28,7 +28,7 @@ Interactive Talking Avatar utilizes Talking Character, which is powered by PaLM,
 You can clone this repository and install all necessary packages by running the following commands in your terminal.
 
 ```shell
-git clone https://github.com/AmberLien/interactive-talking-avatar.git
+git clone https://github.com/sensein/interactive-avatar.git
 cd interactive-talking-avatar
 npm install
 ```
@@ -54,7 +54,7 @@ const hf = new HfInference('your access token here')
 
 ## Generating Animations
 
-After customizing your avatar, you can generate animations by providing your avatar's url in generated_animations.js. You'll also need to fill in the path to your virtual environment (venvPath), and add the path corresponding [generate avatar animations](https://github.com/AmberLien/generate-avatar-animations) (cwdPath). Once filled, create your animations by running
+After customizing your avatar, you can generate animations by providing your avatar's url in generated_animations.js. You'll also need to fill in the path to your virtual environment (venvPath), and add the path corresponding [generate avatar animations](https://github.com/sensein/generate-avatar-animations) (cwdPath). Once filled, create your animations by running
 
 ```
 (base) talking-interactive-character % node generate_animations.js
@@ -62,7 +62,7 @@ After customizing your avatar, you can generate animations by providing your ava
 
 Your animations may take a few minutes to generate. Once completed, they can be used in this project!
 
-<!-- After customizing your avatar using the project, you can take the url corresponding with your avatar (at the moment printed to the console) and use it in the corresponding project to generate avatar animations: https://github.com/AmberLien/generate-avatar-animations.
+<!-- After customizing your avatar using the project, you can take the url corresponding with your avatar (at the moment printed to the console) and use it in the corresponding project to generate avatar animations: https://github.com/sensein/generate-avatar-animations.
 
 Once generated, to use your animation, add it to this project's context folder and import it to the character page like the example below.
 
