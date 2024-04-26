@@ -92,31 +92,7 @@ const useTextToSpeech =
 
       const getDefaultAvatarVoice = ():
           AvatarVoice => {
-            if (sessionStorage.getItem("selectedGender") == "1") {
-              return {
-                'cloudTtsVoice': {
-                  'languageCode': 'en-US',
-                  'name': sessionStorage.getItem('maleVoice')!,
-                  'ssmlGender': 'MALE',
-                  'naturalSampleRateHertz': 24000
-                },
-                'speakingRate': 1,
-                'winslow': false,
-                'cloudTtsPitch': 0
-              }
-            } else {
-              return {
-                'cloudTtsVoice': {
-                  'languageCode': 'en-US',
-                  'name': sessionStorage.getItem('femaleVoice')!,
-                  'ssmlGender': 'MALE',
-                  'naturalSampleRateHertz': 24000
-                },
-                'speakingRate': 1,
-                'winslow': false,
-                'cloudTtsPitch': 0}
-            }
-            // return DEFAULT_AVATAR_VOICE;
+            return DEFAULT_AVATAR_VOICE;
           }
 
       const getDefaultVoice =

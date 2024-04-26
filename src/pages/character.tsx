@@ -32,7 +32,7 @@ import talking_gif from '../context/talking.gif';
 import bitmoji_talking_gif from '../context/bitmoji_talking.gif';
 import '../animations.css';
 
-const useZepetoModel = false;
+const useZepetoModel = true;
 
 const Character: React.FC = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const Character: React.FC = () => {
     setOnSpeechFoundCallback((transcription: string) => {
       setTranscript(['You', transcription]);
       sendMessage(transcription).then((result) => {
-        setTranscript(['Buddy', result]);
+        setTranscript(['AI tutor', result]);
 
         convert(result).then(() => {
           setCharacterState(CharacterState.Idle);
@@ -191,18 +191,6 @@ const Character: React.FC = () => {
             />
             </IconButton>
           </Box>
-          <Box
-            component="div"
-            className="shadow-back-button"
-            sx={{ justifyContent: 'center', color: COLORS.bgcolor}}>
-            <IconButton
-              onClick={handleCustomizeButtonClick}
-              aria-label="fullscreen">
-              <SettingsOutlined
-                sx={{fontSize: '3vh', color: COLORS.primary}}
-              />
-            </IconButton>
-          </Box>
         </Toolbar>
       </AppBar>
 
@@ -227,7 +215,7 @@ const Character: React.FC = () => {
             margin: '0 0 2vh 0',
             bgcolor: '#FFFFFF',
           }}>
-          {/* {storedImage === '' || storedImage === null ? (
+          {storedImage === '' || storedImage === null ? (
             useZepetoModel ?
             <Canvas
               camera={{ fov:45, rotation: [0,0,0], position: [0, 0, 15] }}
@@ -251,33 +239,7 @@ const Character: React.FC = () => {
               image={storedImage}
               alt="Uploaded Image"
             />
-          )} */}
-          <Box component="div" sx={{position: 'relative', height: 1, width: boxWidth}}>
-            <CardMedia
-            id="talkingHeadIframe"
-            component="img"
-            image={sessionStorage.getItem("avatarImage")!}
-            alt="Uploaded Image"
-            sx={{width: .7, display: 'block', position: 'absolute', top: topDistance, left: leftDistance}}
-          /> 
-            {sessionStorage.getItem('selectedStyle') == '4' ? 
-              <CardMedia
-             component="img"
-             className="idle-animation"
-             src={bitmoji_talking_gif}
-             alt="Uploaded Image"
-             sx={{width: width, top: mouthTopLocation, position: 'absolute', display: 'block', left: mouthLeftLocation, visibility: hidden}}
-             />
-          :
-          <CardMedia
-            component="img"
-            className="idle-animation"
-            src={talking_gif}
-            alt="Uploaded Image"
-            sx={{width: width, top: mouthTopLocation, position: 'absolute', display: 'block', left: mouthLeftLocation, visibility: hidden}}
-          />
-        }
-          </Box>
+          )}
         </Box>
         <p hidden={true}><video id="video">
         </video></p>

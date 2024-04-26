@@ -7,8 +7,16 @@ const Home: React.FC = () => {
     const {boxWidth} = useStyle();
     const navigate = useNavigate();
 
+    sessionStorage.setItem("useGoogleApi", "true")
+    sessionStorage.setItem("usePalmApi", "true")
+
+    sessionStorage.setItem("googleApiKey", "AIzaSyAOn-_meRjYu-pvwOVPpFurw9ZvDRbTXKQ");
+    sessionStorage.setItem("palmApiKey", "AIzaSyB-ad4h7r1LmYOuQJgI1g51LYKvtbsg4Gc");
+    sessionStorage.setItem("huggingFaceApiKey", "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")
+
+
     const handleStartButtonClick = () => {
-        navigate('/tools');
+        navigate('/configPersonality');
         return;
     };
 

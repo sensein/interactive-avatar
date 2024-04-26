@@ -61,6 +61,7 @@ const Personality: React.FC = () => {
   }
 
   const fieldsMap = new Map<string, SettingField>([
+    /*
     [
       changeAvatarTab,
       {
@@ -71,6 +72,7 @@ const Personality: React.FC = () => {
         setter: setStoredImage,
       },
     ],
+    */
     [
       personalityTab,
       {

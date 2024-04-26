@@ -20,6 +20,7 @@ import {ConfigContext} from '../context/config';
 import {LANGUAGE_MODEL_URL, LANGUAGE_MODEL_BASE_URL, HUGGING_INFERENCE_KEY} from '../context/constants';
 
 import {HfInference} from '@huggingface/inference';
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 let past_user_inputs: string[] = [];
 let generated_responses: string[] = [];
@@ -91,6 +92,106 @@ const useLanguageModel = ():
       let context = '';
       let messages: MessageProps[] = [];
 
+      const sendPrompt = async (prompt: PromptProps, temperature: number) => {
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${sessionStorage.getItem('palmApiKey')}`;
+
+        const payload = {
+          contents: [
+            {"role": "user", "parts": [{"text": prompt.context}]},
+            {"role": "model", "parts": [{"text": "ok. i will try my best to follow your instruction. Let's start the conversation."}]},
+            ...prompt.messages.map(msg => (
+              {"role": msg.author === '0' ? "user" : "model", "parts": [{"text": msg.content}]}
+            ))
+          ],
+          generationConfig: {
+            temperature: 0.9,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: 200,
+            stopSequences: []
+          },
+          safetySettings: [
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+            }
+          ]
+        };
+
+        console.log("payload", JSON.stringify(payload));
+        const response = await fetch(geminiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          method: 'POST',
+        });
+        console.log("response", response);
+
+        const data = await response.json();
+        console.log("data", data);
+        if (!data.candidates || !data.candidates.length) {
+          console.error("No candidates received.");
+          return null;
+        }
+
+        const textResponse = data.candidates[0].content.parts.map((part: { text: any; }) => part.text).join(' ');
+        console.log("textResponse", textResponse);
+        return {content: textResponse};
+
+
+        
+        /*
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${sessionStorage.getItem('palmApiKey')}`;
+        
+        const payload = {
+          contents: [
+            {"role": "user", "parts": [{"text": prompt.context}]},
+            ...prompt.messages.map(msg => (
+              {"role": msg.author === '0' ? "user" : "model", "parts": [{"text": msg.content}]}
+            ))
+          ]
+        };
+        console.log("payload", payload);
+        const response = await fetch(geminiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          method: 'POST',
+        });
+        console.log("response", response);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (!data.candidates || !data.candidates.length) {
+            console.error("No candidates received.");
+            return null;
+        }
+
+        console.log("data", data);
+        const textResponse = data.candidates[0].content.parts.map((part: { text: any; }) => part.text).join(' ');
+        console.log("textResponse", textResponse);
+        return {content: textResponse};
+        */
+      };
+      
+      /*
       const sendPrompt = async(prompt: PromptProps, temperature: number):
           Promise<SendPromptResponse> => {
             const payload = {
@@ -109,23 +210,26 @@ const useLanguageModel = ():
             
             return response.json() as Promise<SendPromptResponse>;
           };
+      */
 
       useEffect(() => {
-        context = `Your task is to acting as a character that has this personality: "${
+        context = `Your task is to acting as a character that has this personality: ${
             config.state
-                .personality}". Your response must be based on your personality. You have this backstory: "${
-            config.state.backStory}". Your knowledge base is: "${
+                .personality}. 
+                Your response must be based on your personality. The stories to base your activities on are: ${
+            config.state.backStory}. 
+            The activity is: ${
             config.state
-                .knowledgeBase}". The response should be one single sentence only.`;
+                .knowledgeBase}. The response should be one single sentence only.`;
       }, [config]);
 
       const sendMessage = async(message: string): Promise<string> => {
-        const content = `Please answer within 100 characters. {${
-            message}}. The response must be based on the personality, backstory, and knowledge base that you have. The answer must be concise and short.`;
+        const content = `{${message}}`;
 
+        messages = messages.concat([{author: '0', content}]);
         const prompt: PromptProps = {
           context: context,
-          messages: messages.concat([{author: '0', content}]),
+          messages: messages,
         };
 
         // uses PaLM API
@@ -133,12 +237,10 @@ const useLanguageModel = ():
           console.log('using PaLM API');
           const response = await sendPrompt(prompt, 0.25);
           
-          if (response.candidates) {
-            messages = response.messages.concat(response.candidates[0]);
-            return response.candidates[0].content;
+          if (response && response.content) {
+            messages = messages.concat([{author: '1', content: response.content}]);
+            return response.content;
           }
-
-          // handles an empty response from the PaLM API; doesn't save this response nor the user's input that prompted this into messages
           return 'I couldn\'t understand your previous message. Could you try phrasing it in another way?';
         
         // uses Huggingface conversational API

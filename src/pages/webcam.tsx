@@ -31,8 +31,10 @@ export const startRecording = () => {
     recordedChunks = [];
 }
 
-
 export const downloadRecording = () => {
+    if (!mediaRecorder) {
+        return;
+    }
     mediaRecorder.stop();
     mediaStream.getTracks().forEach(track => { track.stop(); });
 

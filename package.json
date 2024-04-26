@@ -5,7 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@huggingface/inference": "^2.5.2",
+    "@google/generative-ai": "^0.8.0",
+    "@huggingface/inference": "2.6.4",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.13",
     "@react-three/drei": "^9.65.3",

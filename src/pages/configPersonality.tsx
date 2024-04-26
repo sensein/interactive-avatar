@@ -5,6 +5,7 @@ import {Box, Toolbar, Typography, IconButton, AppBar, Button, TextField} from '@
 import { ConfigContext } from '../context/config';
 import useStyle, {COLORS} from './styles';
 import { useNavigate } from 'react-router-dom';
+import { startRecording } from './webcam';
 
 const ConfigPersonality: React.FC = () => {
     const optionsTab = 'options';
@@ -46,8 +47,8 @@ const ConfigPersonality: React.FC = () => {
           backStoryTab,
           {
             key: backStoryTab,
-            title: 'Backstory',
-            tabName: 'Backstory',
+            title: 'Stories',
+            tabName: 'Stories',
             value: backStoryText,
             setter: setBackStoryText,
           },
@@ -56,8 +57,8 @@ const ConfigPersonality: React.FC = () => {
           knowledgeBaseTab,
           {
             key: knowledgeBaseTab,
-            title: 'Knowledge Base',
-            tabName: 'Knowledge Base',
+            title: 'Activity',
+            tabName: 'Activity',
             value: knowledgeBaseText,
             setter: setKnowledgeBaseText,
           },
@@ -82,7 +83,8 @@ const ConfigPersonality: React.FC = () => {
     }
 
     const handleContinueButtonClick = () => {
-        navigate('/createAvatar');
+        startRecording()
+        navigate('/character');
     }
 
     const handleCancelButtonClick = () => {
