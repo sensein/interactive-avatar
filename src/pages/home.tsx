@@ -10,9 +10,9 @@ const Home: React.FC = () => {
     sessionStorage.setItem("useGoogleApi", "true")
     sessionStorage.setItem("usePalmApi", "true")
 
-    sessionStorage.setItem("googleApiKey", "AIzaSyAOn-_meRjYu-pvwOVPpFurw9ZvDRbTXKQ");
-    sessionStorage.setItem("palmApiKey", "AIzaSyB-ad4h7r1LmYOuQJgI1g51LYKvtbsg4Gc");
-    sessionStorage.setItem("huggingFaceApiKey", "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")
+    sessionStorage.setItem("googleApiKey", "");
+    sessionStorage.setItem("palmApiKey", "");
+    sessionStorage.setItem("huggingFaceApiKey", "")
 
 
     const handleStartButtonClick = () => {
