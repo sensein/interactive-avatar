@@ -1,0 +1,83 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnp/
+.pnp.js
+# If using TypeScript
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.so
+*.egg-info/
+.eggs/
+env/
+venv/
+ENV/
+ENV.bak/
+*.venv
+.mypy_cache/
+.pytest_cache/
+.coverage
+.tox/
+.sphinx/
+build/
+dist/
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+# PyCharm project settings
+.idea/
+
+# Docker
+*.env
+Dockerfile
+.dockerignore
+docker-compose.yml
+# Docker-generated files
+**/docker-compose.override.yml
+**/.docker/config.json
+
+# General
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+*.bak
+*.swp
+*.swo
+*.tmp
+*.temp
+*.orig
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Test outputs
+coverage/
+nosetests.xml
+pytest_cache/
+junit-xml/
+htmlcov/
+test-results.xml
+
+# System Files
+*.DS_Store
+*.log
+*.pid
+*.seed
+*.pid.lock
+*~
+*.swp
+*.swo
+
+# Environment Variables
+*.env
