@@ -13,26 +13,45 @@ Vocabulary knowledge is the single best predictor of reading achievement and sch
 - Docker
 - ...
 
-### Installation
+### Installation 
+(@micheal: how about creating a docker file orchestrating the entire setup?)
 
-1. Clone the repository:
+1. Clone the repository and the submodules:
     ```bash
-    git clone https://github.com/sensein/interactive-avatar.git
+    git clone --recurse-submodules https://github.com/sensein/interactive-avatar.git
     ```
 
-2. ...
+2. Install dependencies of the server:
+    ```bash
+    cd src/server
+    npm install
+    ```
+
+3. Install dependencies of the client:
+    ```bash
+    cd src/client
+    npm install
+
+4. ...
 
 ## Getting Started
 
 1. Start the server:
     ```bash
-    docker compose up
+    cd src/server
+    node index.js
     ```
 
-2. Access the application:
+2. Start the client:
+    ```bash
+    cd src/client
+    npm start
+    ```
+
+3. Access the application:
     Open your browser and go to `http://localhost:3000`.
 
-3. Use the interface to interact with the avatar and begin educational activities.
+4. Use the interface in the browser. Every audio ...
 
 ## Contributing
 
