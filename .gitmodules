@@ -1,3 +1,6 @@
 [submodule "src/server/libs/speech-to-speech"]
 	path = src/server/libs/speech-to-speech
 	url = https://github.com/sensein/speech-to-speech
+[submodule "src/server/speech-to-speech"]
+	path = src/server/speech-to-speech
+	url = https://github.com/sensein/speech-to-speech.git
