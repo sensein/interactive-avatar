@@ -53,6 +53,78 @@ Vocabulary knowledge is the single best predictor of reading achievement and sch
 
 4. Use the interface in the browser. Every audio ...
 
+## Unit Testing Connections
+
+To verify that your socket connections are properly configured for efficient and correct data transfer, you can run the following tests in pairs of terminals.
+
+Navigate to `src/server/tests` in two seperate terminals.  You can test the code in the following ways:
+
+### 1. Testing STS Receiving Data and the Server Sending Data
+- **Terminal 1**: Run the STS receiver script
+  ```
+  python spoof_sts_recv_sts.py
+  ```
+- **Terminal 2**: Run the server sender script
+  ```
+  python spoof_server_send.py
+  ```
+
+### 2. Testing the Server Receiving Data and STS Sending Data
+- **Terminal 1**: Run the server receiver script
+  ```
+  python spoof_server_recv_sts.py
+  ```
+- **Terminal 2**: Run the STS sender script
+  ```
+  python spoof_sts_send.py
+  ```
+
+Navigate one terminal to `src/server/tests` (for python commands) and the other to `src/client/src` (for npm commands).
+
+### 3. Testing the Server Receiving Data and the Client Sending Data
+
+- **Terminal 1**: Run the server receiver script
+  ```
+  python spoof_server_recv_client.py
+  ```
+- **Terminal 2**: Run the client sender script
+  ```
+  npm run start:spoof_client_send
+  ```
+
+### 4. Testing the Client Receiving Data and the Server Sending Data
+- **Terminal 1**: Run the client receiver script
+  ```
+  npm run start:spoof_client_recv
+  ```
+- **Terminal 2**: Run the server sender script
+  ```
+  python spoof_server_send_client.py
+  ```
+
+These tests are designed to ensure that your socket connections are properly set up to facilitate the accurate and efficient transfer of data between the different components.
+
+
+
+
+
+
+1. Navigate to `src/server/tests` in two seperate terminals.  You can test the code in the following ways:
+    a. Test sts receiving data and the server sending data
+        i. Terminal 1: `python spoof_sts_recv_sts.py`
+        ii. Terminal 2: `python spoof_server_send.py`
+    b. Test the server receiving data and sts sending data
+        i. Terminal 1: `python spoof_server_recv_sts.py`
+        ii. Terminal 2: `python spoof_sts_send.py`
+2. Navigate one terminal to `src/server/tests` (for python commands) and the other to `src/client/src` (for npm commands).
+    c. Test the server receiving data and the client sending data
+        i. Terminal 1: `python spoof_server_recv_client.py`
+        ii. Terminal 2: `npm run start:spoof_client_send`
+    d. Test the client receiving data and the server sending data
+        i. Terminal 1: `npm run start:spoof_client_recv`
+        ii. Terminal 2: `python spoof_server_send_client.py`
+These tests are here to help ensure that the socket connections are properly set up to allow for correct and efficient transfer of data.
+
 ## Contributing
 
 We welcome contributions! Please send us an email at [fabiocat@mit.edu](mailto:fabiocat@mit.edu) if you're interested in contributing to the project. We will get in touch to discuss your ideas and provide access.
