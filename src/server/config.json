@@ -1,0 +1,7 @@
+{
+    "device": "cpu",
+    "stt": "whisper",
+    "stt_model_name": "openai/whisper-tiny",
+    "tts": "chatTTS",
+    "llm": "transformers"
+}

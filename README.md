@@ -79,7 +79,7 @@ Navigate to `src/server/tests` in two seperate terminals.  You can test the code
   python spoof_sts_send.py
   ```
 
-Navigate one terminal to `src/server/tests` (for python commands) and the other to `src/client/src` (for npm commands).
+Navigate one terminal to `src/server/tests` (for python commands) and the other to `src/client/tests` (for npm commands).
 
 ### 3. Testing the Server Receiving Data and the Client Sending Data
 
@@ -103,27 +103,6 @@ Navigate one terminal to `src/server/tests` (for python commands) and the other 
   ```
 
 These tests are designed to ensure that your socket connections are properly set up to facilitate the accurate and efficient transfer of data between the different components.
-
-
-
-
-
-
-1. Navigate to `src/server/tests` in two seperate terminals.  You can test the code in the following ways:
-    a. Test sts receiving data and the server sending data
-        i. Terminal 1: `python spoof_sts_recv_sts.py`
-        ii. Terminal 2: `python spoof_server_send.py`
-    b. Test the server receiving data and sts sending data
-        i. Terminal 1: `python spoof_server_recv_sts.py`
-        ii. Terminal 2: `python spoof_sts_send.py`
-2. Navigate one terminal to `src/server/tests` (for python commands) and the other to `src/client/src` (for npm commands).
-    c. Test the server receiving data and the client sending data
-        i. Terminal 1: `python spoof_server_recv_client.py`
-        ii. Terminal 2: `npm run start:spoof_client_send`
-    d. Test the client receiving data and the server sending data
-        i. Terminal 1: `npm run start:spoof_client_recv`
-        ii. Terminal 2: `python spoof_server_send_client.py`
-These tests are here to help ensure that the socket connections are properly set up to allow for correct and efficient transfer of data.
 
 ## Contributing
 

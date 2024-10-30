@@ -7,21 +7,20 @@ import pickle
 from typing import Optional, Dict, Callable, Union, List
 import numpy as np
 
-def spoof_server_recv_sts(
+def recv_sts(
+    stop_event: threading.Event,
+    text_queue: Queue[str],
+    visemes_queue: Queue[List[Dict[str, Union[str, float]]]],
+    audio_queue: Queue[bytes],
     recv_rate: int = 44100,
-    list_play_chunk_size: int = 512,
+    chunk_size: int = 512,
     host: str = "localhost",
-    recv_port: int = 12346,
+    port: int = 12346,
 ) -> None:
     recv_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    recv_socket.connect((host, recv_port))
+    recv_socket.connect((host, port))
 
     print("Recording and streaming...")
-
-    stop_event: threading.Event = threading.Event()
-    recv_queue_text: Queue[str] = Queue()
-    recv_queue_visemes: Queue[List[Dict[str, Union[str, float]]]] = Queue()
-    recv_queue_audio: Queue[bytes] = Queue()
 
     # This callback is specifically for the sd audio player
     def callback_recv(
@@ -30,12 +29,16 @@ def spoof_server_recv_sts(
         time: Callable,
         status: sd.CallbackFlags,
     ) -> None:
-        if not recv_queue_audio.empty():
-            data: bytes = recv_queue_audio.get()
-            outdata[: len(data)] = data
-            outdata[len(data) :] = b"\x00" * (len(outdata) - len(data))
+        if not audio_queue.empty():
+            data: bytes = audio_queue.get()
+            if len(data) < len(outdata):
+                outdata[:len(data)] = data
+                outdata[len(data):] = b'\x00' * (len(outdata) - len(data))  # Pad with zeros
+            else:
+                outdata[:] = data[:len(outdata)]  # Truncate if data is too large
         else:
-            outdata[:] = b"\x00" * len(outdata)
+            outdata[:] = b"\x00" * len(outdata)  # Fill with silence if no data
+
 
     # Process a received packet
     def recv(
@@ -93,12 +96,12 @@ def spoof_server_recv_sts(
             samplerate=recv_rate,
             channels=1,
             dtype="int16",
-            blocksize=list_play_chunk_size,
+            blocksize=chunk_size,
             callback=callback_recv,
         )
         threading.Thread(target=recv_stream.start).start()
 
-        recv_thread = threading.Thread(target=recv, args=(stop_event, recv_queue_text, recv_queue_visemes, recv_queue_audio))
+        recv_thread = threading.Thread(target=recv, args=(stop_event, text_queue, visemes_queue, audio_queue))
         recv_thread.start()
 
         input("Press Enter to stop...")
@@ -114,4 +117,9 @@ def spoof_server_recv_sts(
 
 
 if __name__ == "__main__":
-    spoof_server_recv_sts()
+    recv_sts(
+        threading.Event(),
+        Queue(),
+        Queue(),
+        Queue(),
+    )

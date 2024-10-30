@@ -6,6 +6,11 @@ import React from 'react';
 // import SocketRecorder from './components/SocketRecorder';
 // import SocketRecorderChunked from './components/SocketRecorderChunked';
 import Main from './pages/Main';
+// import Original from './components/OriginalRecorder';
+// import TestSocket from './components/TestSocket';
+// import Record from './components/Record';
+// import Listen2 from './components/Listen2';
+// import ListenAndPlay from './components/ListenAndPlay';
 
 function App() {
   return (
@@ -14,6 +19,11 @@ function App() {
       {/* <TestRecorder /> */}
       {/* <SocketRecorder /> */}
       <Main />
+      {/* <Original /> */}
+      {/* <TestSocket /> */}
+      {/* <Record /> */}
+      {/* <Listen2 /> */}
+      {/* <ListenAndPlay /> */}
     </div>
   );
 }

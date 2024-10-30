@@ -67,8 +67,10 @@ class SpoofSTSSend:
         )
         self.create_audio()
 
+        input("Press Enter to send data...\n")
+
         while not self.stop_event.is_set():
-            input("Press Enter to send data...\n")
+            
 
             spoofed_data: Dict[str, Union[np.ndarray, str, List[Dict[str, Union[str, float]]]]] = {}
             data_text = []

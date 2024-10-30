@@ -1,22 +1,24 @@
 import socket
 import threading
-from queue import Queue
+import queue
 import sounddevice as sd
 from typing import Callable
 
-def spoof_server_send_sts(
+def send_sts(
+    stop_event: threading.Event,
+    audio_queue: queue.Queue,
     send_rate: int = 16000,
-    list_play_chunk_size: int = 512,
+    chunk_size: int = 512,
     host: str = "localhost",
-    send_port: int = 12345,
+    port: int = 12345,
 ) -> None:
     send_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    send_socket.connect((host, send_port))
+    send_socket.connect((host, port))
 
     print("Recording and streaming...")
 
     stop_event: threading.Event = threading.Event()
-    send_queue: Queue[bytes] = Queue()
+    send_queue: queue.Queue[bytes] = queue.Queue()
 
     def callback_send(
         indata: bytearray,
@@ -29,7 +31,7 @@ def spoof_server_send_sts(
 
     def send(
         stop_event: threading.Event,
-        send_queue: Queue[bytes],
+        send_queue: queue.Queue[bytes],
     ) -> None:
         while not stop_event.is_set():
             data = send_queue.get()
@@ -40,7 +42,7 @@ def spoof_server_send_sts(
             samplerate=send_rate,
             channels=1,
             dtype="int16",
-            blocksize=list_play_chunk_size,
+            blocksize=chunk_size,
             callback=callback_send,
         )
         threading.Thread(target=send_stream.start).start()
@@ -61,4 +63,4 @@ def spoof_server_send_sts(
 
 
 if __name__ == "__main__":
-    spoof_server_send_sts()
+    send_sts()

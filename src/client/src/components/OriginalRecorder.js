@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 import React, { useState, useRef } from 'react';
 import RecordRTC from 'recordrtc';
 
